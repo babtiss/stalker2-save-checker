@@ -1,41 +1,40 @@
 # STALKER 2 Save Checker
 
-Небольшой read-only чекер для флешек с чертежами улучшений в
+Показывает, какие из 77 флешек с чертежами улучшений не найдены в
 **S.T.A.L.K.E.R. 2: Heart of Chornobyl**.
 
-Он читает `CampaignsSave.sav`, сравнивает раздел `Analytics` с перечнем из
-`Statistics.cfg` и показывает:
+## Как запустить
 
-- сколько из 77 засчитываемых флешек найдено;
-- ID недостающих флешек;
-- готовые команды их физического спавна через консоль игры;
-- состояние `RoyalFlush`, если оно читается из сейва.
+Нужны **Windows** и **Python 3.10 или новее**.
 
-Сейв **не изменяется** и **никуда не отправляется**.
+1. Нажмите **Code → Download ZIP** и распакуйте архив.
+2. Откройте распакованную папку.
+3. Запустите `check_stalker2_blueprints.bat` двойным кликом.
 
-## Быстрый запуск
-
-Требования: Windows и Python 3.10 или новее.
-
-1. Скачайте репозиторий через **Code → Download ZIP** и распакуйте его.
-2. Запустите `check_stalker2_blueprints.bat` двойным кликом.
-
-BAT-файл запускает Python-скрипт и не даёт окну закрыться, чтобы результат
-можно было прочитать.
-
-## Ручной запуск
+Либо откройте PowerShell в этой папке и выполните:
 
 ```powershell
 py stalker2_blueprint_checker.py --download-oodle
 ```
 
-Скрипт автоматически ищет самый свежий файл здесь:
+Скрипт сам найдёт `CampaignsSave.sav` и покажет счётчик, недостающие флешки и
+команды для их спавна. Сейв не изменяется и никуда не отправляется.
+
+После подбора флешки сделайте новый сейв либо выйдите в меню/из игры, чтобы
+`CampaignsSave.sav` успел обновиться.
+
+<details>
+<summary><strong>Подробнее</strong></summary>
+
+### Где ищется сейв
+
+По умолчанию выбирается самый свежий файл внутри:
 
 ```text
 %LOCALAPPDATA%\Stalker2\Saved\*\SaveGames\CampaignsSave.sav
 ```
 
-Можно передать другой сейв явно:
+Другой сейв можно передать явно:
 
 ```powershell
 py stalker2_blueprint_checker.py `
@@ -43,10 +42,7 @@ py stalker2_blueprint_checker.py `
   --download-oodle
 ```
 
-После подбора флешки сделайте новый сейв либо выйдите в меню/из игры. Иначе
-лежащий на диске `CampaignsSave.sav` может ещё показывать старый счётчик.
-
-## Oodle-декодер
+### Oodle-декодер
 
 Для распаковки сейва требуется `oo2core_9_win64.dll`. Репозиторий не
 распространяет эту DLL. Флаг `--download-oodle` скачивает закреплённый архив
@@ -64,9 +60,9 @@ Unpaker v1.1.0 и обязательно проверяет SHA-256 архива
 py stalker2_blueprint_checker.py --oodle-dll "C:\Tools\oo2core_9_win64.dll"
 ```
 
-## Дополнительные режимы
+### Дополнительные режимы
 
-JSON для обработки другими программами:
+Вывести результат в JSON:
 
 ```powershell
 py stalker2_blueprint_checker.py --json --download-oodle
@@ -86,10 +82,10 @@ py stalker2_blueprint_checker.py `
 XSpawnItemNearPlayerBySID Blueprint_Exoskeleton_Neutral_Armor_Upgrade_3
 ```
 
-Предмет необходимо подобрать с земли. Добавление напрямую в инвентарь может
-не обновить статистику.
+Появившийся предмет необходимо подобрать с земли. Добавление напрямую в
+инвентарь может не обновить статистику.
 
-## Что именно считается
+### Что именно считается
 
 Встроенный перечень содержит ровно 77 записей из `Blueprints.Items` в
 `Statistics.cfg` версии игры 2.0.6.
@@ -101,10 +97,12 @@ XSpawnItemNearPlayerBySID Blueprint_Exoskeleton_Neutral_Armor_Upgrade_3
 После обновлений игры, меняющих `Statistics.cfg`, список в
 `COUNTED_BLUEPRINTS` необходимо сверить заново.
 
-## Тесты
+### Тесты
 
 ```powershell
 py -m pip install pytest ruff
 py -m pytest
 py -m ruff check .
 ```
+
+</details>
