@@ -1,6 +1,4 @@
 __pycache__/
-.pytest_cache/
-.ruff_cache/
 *.py[cod]
 missing-blueprints.txt
 oo2core_9_win64.dll

@@ -97,12 +97,4 @@ XSpawnItemNearPlayerBySID Blueprint_Exoskeleton_Neutral_Armor_Upgrade_3
 После обновлений игры, меняющих `Statistics.cfg`, список в
 `COUNTED_BLUEPRINTS` необходимо сверить заново.
 
-### Тесты
-
-```powershell
-py -m pip install pytest ruff
-py -m pytest
-py -m ruff check .
-```
-
 </details>
